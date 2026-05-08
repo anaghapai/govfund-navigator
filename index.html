@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>GovFund Navigator</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+</head>
+<body>
+
+  <div class="bg-grid"></div>
+
+  <div class="app">
+
+    <!-- HEADER -->
+    <header>
+      <div class="logo">⚡ GovFund <span>Navigator</span></div>
+      <p class="tagline">Every business deserves to know what they qualify for.</p>
+    </header>
+
+    <!-- STEP 1: FORM -->
+    <section id="step-form" class="card active">
+      <h2>Tell us about your business</h2>
+
+      <div class="form-grid">
+        <div class="field">
+          <label>Business Name</label>
+          <input type="text" id="biz-name" placeholder="e.g. Riya Agro Pvt Ltd" />
+        </div>
+
+        <div class="field">
+          <label>Business Type</label>
+          <select id="biz-type">
+            <option value="">Select type</option>
+            <option>Startup</option>
+            <option>Women-led Business</option>
+            <option>NGO</option>
+            <option>Rural Enterprise</option>
+            <option>MSME</option>
+            <option>Self Help Group</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label>State</label>
+          <select id="biz-state">
+            <option value="">Select state</option>
+            <option>Karnataka</option>
+            <option>Maharashtra</option>
+            <option>Tamil Nadu</option>
+            <option>Uttar Pradesh</option>
+            <option>Rajasthan</option>
+            <option>Gujarat</option>
+            <option>Delhi</option>
+            <option>West Bengal</option>
+            <option>Telangana</option>
+            <option>Kerala</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label>Annual Revenue (₹)</label>
+          <select id="biz-revenue">
+            <option value="">Select range</option>
+            <option>Under ₹10 Lakh</option>
+            <option>₹10L – ₹1 Crore</option>
+            <option>₹1Cr – ₹10 Crore</option>
+            <option>Above ₹10 Crore</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label>Years in Operation</label>
+          <select id="biz-age">
+            <option value="">Select</option>
+            <option>Less than 1 year</option>
+            <option>1–3 years</option>
+            <option>3–5 years</option>
+            <option>More than 5 years</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label>Sector</label>
+          <select id="biz-sector">
+            <option value="">Select sector</option>
+            <option>Agriculture</option>
+            <option>Technology</option>
+            <option>Manufacturing</option>
+            <option>Textile</option>
+            <option>Healthcare</option>
+            <option>Education</option>
+            <option>Food Processing</option>
+            <option>Handicrafts</option>
+            <option>Renewable Energy</option>
+            <option>Other</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="field full">
+        <label>Brief Description of your Business</label>
+        <textarea id="biz-desc" rows="3" placeholder="What does your business do? Who are your customers?"></textarea>
+      </div>
+
+      <button id="btn-analyze" onclick="runAgents()">🚀 Analyze My Eligibility</button>
+    </section>
+
+    <!-- STEP 2: LOADING -->
+    <section id="step-loading" class="card">
+      <div class="loader-box">
+        <div class="spinner"></div>
+        <p id="loading-text">Agent 1 is checking your eligibility...</p>
+        <div class="agent-track">
+          <div class="agent-step" id="at1">🔍 Agent 1: Eligibility Check</div>
+          <div class="arrow">→</div>
+          <div class="agent-step" id="at2">📋 Agent 2: Scheme Matching</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- STEP 3: RESULTS -->
+    <section id="step-results" class="card">
+      <div class="score-box">
+        <div class="score-label">Eligibility Score</div>
+        <div class="score-number" id="score-display">0</div>
+        <div class="score-bar-bg">
+          <div class="score-bar-fill" id="score-bar"></div>
+        </div>
+        <div class="score-summary" id="score-summary"></div>
+      </div>
+
+      <h3 style="margin: 2rem 0 1rem;">🎯 Top Matching Schemes</h3>
+      <div id="schemes-container"></div>
+
+      <button onclick="resetApp()" style="margin-top:2rem; background: var(--surface2); color: var(--muted);">← Start Over</button>
+    </section>
+
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
