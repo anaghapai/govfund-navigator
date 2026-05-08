@@ -8,7 +8,10 @@ db.exec(`
     business_type TEXT,
     state TEXT,
     sector TEXT,
+    revenue TEXT,
+    age TEXT,
     score INTEGER,
+    schemes_count INTEGER,
     schemes_json TEXT,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP
   )
@@ -16,28 +19,33 @@ db.exec(`
 
 function saveSearch(biz, result) {
   const stmt = db.prepare(`
-    INSERT INTO searches (business_name, business_type, state, sector, score, schemes_json)
-    VALUES (?, ?, ?, ?, ?, ?)
+    INSERT INTO searches (business_name, business_type, state, sector, revenue, age, score, schemes_count, schemes_json)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
   `);
   return stmt.run(
     biz.name || 'Unknown',
     biz.type,
     biz.state,
     biz.sector,
+    biz.revenue,
+    biz.age,
     result.agent1?.score ?? null,
+    result.agent2?.schemes?.length ?? 0,
     JSON.stringify(result.agent2?.schemes ?? [])
   );
 }
 
 function getHistory() {
   return db.prepare(`
-    SELECT id, business_name, business_type, state, sector, score, created_at
+    SELECT id, business_name, business_type, state, sector, revenue, age, score, schemes_count, created_at
     FROM searches ORDER BY created_at DESC LIMIT 50
   `).all();
 }
 
 function getSearchById(id) {
-  return db.prepare(`SELECT * FROM searches WHERE id = ?`).get(id);
+  const row = db.prepare(`SELECT * FROM searches WHERE id = ?`).get(id);
+  if (row) row.schemes = JSON.parse(row.schemes_json);
+  return row;
 }
 
 module.exports = { saveSearch, getHistory, getSearchById };
