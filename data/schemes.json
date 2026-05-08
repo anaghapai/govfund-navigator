@@ -1,0 +1,298 @@
+[
+  {
+    "id": "pmegp",
+    "name": "PMEGP — Prime Minister's Employment Generation Programme",
+    "ministry": "Ministry of MSME",
+    "sector": ["Manufacturing", "Food Processing", "Handicrafts", "Other"],
+    "target_group": ["Rural Enterprise", "MSME", "Women-led Business", "Self Help Group"],
+    "max_benefit": "₹25 Lakh (35% subsidy for general, 25% urban)",
+    "deadline": "Ongoing — applications open year round",
+    "apply_url": "https://www.kviconline.gov.in/pmegpeportal/",
+    "eligibility": {
+      "min_age": 18,
+      "revenue_cap": "New projects only (not existing)",
+      "years_in_operation": ["Less than 1 year"],
+      "states": "All India"
+    },
+    "documents": [
+      "Aadhaar Card",
+      "PAN Card",
+      "Passport-size photographs (2)",
+      "Project Report (detailed)",
+      "Educational qualification certificate",
+      "Caste certificate (if SC/ST/OBC)",
+      "Bank account details"
+    ],
+    "features": ["Capital subsidy up to 35%", "No collateral for loans under ₹10L", "Training support provided"],
+    "benefits": "Subsidy on project cost for setting up new micro-enterprises in manufacturing or service sector"
+  },
+  {
+    "id": "mudra_shishu",
+    "name": "MUDRA Loan — Shishu Category (Under ₹50,000)",
+    "ministry": "Ministry of Finance / SIDBI",
+    "sector": ["Agriculture", "Manufacturing", "Food Processing", "Handicrafts", "Technology", "Other"],
+    "target_group": ["Startup", "MSME", "Rural Enterprise", "Women-led Business", "Self Help Group"],
+    "max_benefit": "Loan up to ₹50,000 at low interest",
+    "deadline": "Ongoing",
+    "apply_url": "https://www.mudra.org.in/",
+    "eligibility": {
+      "revenue_cap": "Under ₹5 Lakh",
+      "years_in_operation": ["Less than 1 year", "1–3 years"],
+      "states": "All India"
+    },
+    "documents": [
+      "Aadhaar Card",
+      "PAN Card",
+      "Business address proof",
+      "Bank statement (6 months)",
+      "Passport-size photographs"
+    ],
+    "features": ["No collateral required", "No processing fee", "Flexible repayment"],
+    "benefits": "Collateral-free micro-loan for starting or growing a small business"
+  },
+  {
+    "id": "mudra_kishore",
+    "name": "MUDRA Loan — Kishore Category (₹50K–₹5L)",
+    "ministry": "Ministry of Finance / SIDBI",
+    "sector": ["Agriculture", "Manufacturing", "Food Processing", "Handicrafts", "Technology", "Other"],
+    "target_group": ["Startup", "MSME", "Rural Enterprise", "Women-led Business"],
+    "max_benefit": "Loan ₹50,000 to ₹5,00,000",
+    "deadline": "Ongoing",
+    "apply_url": "https://www.mudra.org.in/",
+    "eligibility": {
+      "revenue_cap": "₹5L – ₹10 Lakh",
+      "years_in_operation": ["1–3 years", "3–5 years"],
+      "states": "All India"
+    },
+    "documents": [
+      "Aadhaar Card",
+      "PAN Card",
+      "Business registration proof",
+      "Bank statement (12 months)",
+      "IT Returns (if available)",
+      "Quotations for equipment purchase"
+    ],
+    "features": ["Low interest rates", "No collateral up to ₹5L", "Can be used for working capital or equipment"],
+    "benefits": "Growth-stage loan for existing micro businesses to expand operations"
+  },
+  {
+    "id": "nabard_dairy",
+    "name": "NABARD Dairy Entrepreneurship Development Scheme (DEDS)",
+    "ministry": "Ministry of Agriculture & NABARD",
+    "sector": ["Agriculture"],
+    "target_group": ["Rural Enterprise", "MSME", "Women-led Business"],
+    "max_benefit": "Capital subsidy up to ₹3.30 Lakh per unit",
+    "deadline": "Ongoing",
+    "apply_url": "https://www.nabard.org/content.aspx?id=596",
+    "eligibility": {
+      "years_in_operation": ["Less than 1 year", "1–3 years", "3–5 years"],
+      "sector_required": "Agriculture",
+      "states": "All India"
+    },
+    "documents": [
+      "Aadhaar Card",
+      "PAN Card",
+      "Land ownership or lease proof",
+      "Bank account details",
+      "Project Report for dairy unit",
+      "Veterinary fitness certificate"
+    ],
+    "features": ["Back-ended capital subsidy", "Linked with bank loans", "Covers purchase of cows/buffaloes, equipment, and cold storage"],
+    "benefits": "Subsidy for setting up modern dairy farms and milk processing units"
+  },
+  {
+    "id": "udyogini",
+    "name": "Udyogini Scheme — Women Entrepreneur Fund",
+    "ministry": "Ministry of Women & Child Development",
+    "sector": ["Food Processing", "Handicrafts", "Textile", "Agriculture", "Other"],
+    "target_group": ["Women-led Business", "Self Help Group", "Rural Enterprise"],
+    "max_benefit": "Grant up to ₹1,00,000 (no repayment required)",
+    "deadline": "Ongoing — Karnataka WFDB runs year round",
+    "apply_url": "https://www.kswdc.org/",
+    "eligibility": {
+      "gender": "Women only",
+      "revenue_cap": "Under ₹5 Lakh",
+      "states": "Karnataka, Punjab, others via state WFDB"
+    },
+    "documents": [
+      "Aadhaar Card",
+      "Ration Card or income proof",
+      "BPL Certificate (if applicable)",
+      "Bank account details",
+      "Business plan (basic)",
+      "Passport-size photographs"
+    ],
+    "features": ["No repayment for grant component", "Simple application", "State government backed"],
+    "benefits": "Direct grant for women starting businesses in rural and semi-urban areas — no collateral, no repayment"
+  },
+  {
+    "id": "pmfme",
+    "name": "PM FME — Formalisation of Micro Food Enterprises",
+    "ministry": "Ministry of Food Processing Industries",
+    "sector": ["Food Processing"],
+    "target_group": ["MSME", "Rural Enterprise", "Women-led Business", "Self Help Group"],
+    "max_benefit": "Credit-linked subsidy of 35% up to ₹10 Lakh",
+    "deadline": "Ongoing (scheme runs till 2025-26)",
+    "apply_url": "https://pmfme.mofpi.gov.in/",
+    "eligibility": {
+      "sector_required": "Food Processing",
+      "years_in_operation": ["1–3 years", "3–5 years", "More than 5 years"],
+      "states": "All India"
+    },
+    "documents": [
+      "Aadhaar Card",
+      "FSSAI Registration",
+      "Udyam Registration",
+      "Bank statement (12 months)",
+      "Project Report",
+      "Quotations for machinery"
+    ],
+    "features": ["Subsidy on upgradation of existing unit", "Branding and marketing support", "Training on food safety"],
+    "benefits": "Subsidy for micro food enterprises to upgrade equipment, get certifications, and scale production"
+  },
+  {
+    "id": "tufs",
+    "name": "TUFS — Technology Upgradation Fund Scheme",
+    "ministry": "Ministry of Textiles",
+    "sector": ["Textile", "Handicrafts"],
+    "target_group": ["MSME", "Women-led Business"],
+    "max_benefit": "Interest reimbursement 4-6% or capital subsidy 15-25%",
+    "deadline": "Open under RR-TUFS for new applications",
+    "apply_url": "https://www.texmin.nic.in/tufs",
+    "eligibility": {
+      "sector_required": "Textile or Handicrafts",
+      "years_in_operation": ["1–3 years", "3–5 years", "More than 5 years"],
+      "states": "All India"
+    },
+    "documents": [
+      "Udyam Registration",
+      "PAN Card",
+      "Bank loan sanction letter",
+      "Machinery purchase invoice",
+      "CA-certified balance sheet",
+      "GST Returns"
+    ],
+    "features": ["Technology upgrade subsidy", "Interest rate reimbursement on bank loans", "Covers weaving, processing, technical textiles"],
+    "benefits": "Subsidised funding for textile units to modernise machinery and reduce production cost"
+  },
+  {
+    "id": "standup_india",
+    "name": "Stand-Up India Scheme",
+    "ministry": "Ministry of Finance / SIDBI",
+    "sector": ["Manufacturing", "Technology", "Food Processing", "Other"],
+    "target_group": ["Women-led Business", "Startup"],
+    "max_benefit": "Bank loan ₹10 Lakh to ₹1 Crore at subsidised rate",
+    "deadline": "Ongoing",
+    "apply_url": "https://www.standupmitra.in/",
+    "eligibility": {
+      "target_required": "Women or SC/ST entrepreneur",
+      "years_in_operation": ["Less than 1 year"],
+      "revenue_cap": "New greenfield enterprise only",
+      "states": "All India"
+    },
+    "documents": [
+      "Aadhaar Card",
+      "PAN Card",
+      "Caste certificate (for SC/ST)",
+      "Detailed Project Report",
+      "Promoter's photograph",
+      "Bank account details",
+      "Lease/rent agreement for business premises"
+    ],
+    "features": ["Composite loan covering 75% of project cost", "Covers working capital and term loan", "Margin money refinance available"],
+    "benefits": "Large-scale loan facility for women or SC/ST entrepreneurs starting a new business in manufacturing or services"
+  },
+  {
+    "id": "weavers_mudra",
+    "name": "Weavers MUDRA Scheme",
+    "ministry": "Ministry of Textiles",
+    "sector": ["Textile", "Handicrafts"],
+    "target_group": ["Rural Enterprise", "MSME", "Women-led Business"],
+    "max_benefit": "Loan up to ₹10,000 at 6% interest with credit card",
+    "deadline": "Ongoing",
+    "apply_url": "https://handlooms.nic.in/",
+    "eligibility": {
+      "sector_required": "Textile or Handicrafts",
+      "states": "All India"
+    },
+    "documents": [
+      "Weaver identity card",
+      "Aadhaar Card",
+      "Bank account linked to Aadhaar",
+      "Photograph"
+    ],
+    "features": ["Credit card for weavers", "Very low interest rate", "Covers working capital needs"],
+    "benefits": "Dedicated low-interest credit for handloom weavers to buy raw materials and tools"
+  },
+  {
+    "id": "agri_infra_fund",
+    "name": "Agriculture Infrastructure Fund (AIF)",
+    "ministry": "Ministry of Agriculture & Farmers Welfare",
+    "sector": ["Agriculture", "Food Processing"],
+    "target_group": ["Rural Enterprise", "MSME", "Self Help Group"],
+    "max_benefit": "Loan up to ₹2 Crore with 3% interest subvention",
+    "deadline": "Open till 2032-33",
+    "apply_url": "https://agriinfra.dac.gov.in/",
+    "eligibility": {
+      "sector_required": "Agriculture",
+      "years_in_operation": ["Less than 1 year", "1–3 years", "3–5 years", "More than 5 years"],
+      "states": "All India"
+    },
+    "documents": [
+      "Aadhaar / PAN Card",
+      "Land records / lease agreement",
+      "Project Report",
+      "Bank account details",
+      "GST Registration (if applicable)",
+      "Udyam Registration (if applicable)"
+    ],
+    "features": ["Interest subvention of 3% on loans", "Credit guarantee coverage", "Covers cold storage, warehouses, sorting units"],
+    "benefits": "Low-interest loans for post-harvest infrastructure — cold chain, primary processing, warehousing"
+  },
+  {
+    "id": "cgtmse",
+    "name": "CGTMSE — Credit Guarantee Fund for Micro & Small Enterprises",
+    "ministry": "Ministry of MSME",
+    "sector": ["Manufacturing", "Technology", "Food Processing", "Textile", "Other"],
+    "target_group": ["MSME", "Startup", "Women-led Business"],
+    "max_benefit": "Collateral-free loan guarantee up to ₹2 Crore",
+    "deadline": "Ongoing",
+    "apply_url": "https://www.cgtmse.in/",
+    "eligibility": {
+      "years_in_operation": ["Less than 1 year", "1–3 years", "3–5 years"],
+      "states": "All India"
+    },
+    "documents": [
+      "Udyam Registration Certificate",
+      "PAN Card",
+      "Business plan / Project Report",
+      "Bank statement",
+      "KYC documents of promoters"
+    ],
+    "features": ["No collateral needed", "Guarantee fee subsidised", "Works alongside any MSME bank loan"],
+    "benefits": "Government-backed credit guarantee that lets banks lend to MSMEs without collateral — removes biggest lending barrier"
+  },
+  {
+    "id": "nsic_raw_material",
+    "name": "NSIC — Raw Material Assistance Scheme",
+    "ministry": "Ministry of MSME / NSIC",
+    "sector": ["Manufacturing", "Textile", "Handicrafts", "Food Processing"],
+    "target_group": ["MSME", "Rural Enterprise"],
+    "max_benefit": "Subsidised raw material procurement — credit limit based on turnover",
+    "deadline": "Ongoing",
+    "apply_url": "https://www.nsic.co.in/",
+    "eligibility": {
+      "years_in_operation": ["1–3 years", "3–5 years", "More than 5 years"],
+      "states": "All India"
+    },
+    "documents": [
+      "Udyam Registration",
+      "PAN Card",
+      "Bank statement (12 months)",
+      "CA-certified balance sheet",
+      "List of raw materials required"
+    ],
+    "features": ["Bulk purchase discounts", "Credit facility for raw materials", "No collateral for small limits"],
+    "benefits": "NSIC procures raw materials in bulk and supplies to MSMEs at subsidised rates on credit"
+  }
+]

@@ -14,18 +14,18 @@ db.exec(`
   )
 `);
 
-function saveSearch(data) {
+function saveSearch(biz, result) {
   const stmt = db.prepare(`
     INSERT INTO searches (business_name, business_type, state, sector, score, schemes_json)
     VALUES (?, ?, ?, ?, ?, ?)
   `);
   return stmt.run(
-    data.business_name,
-    data.business_type,
-    data.state,
-    data.sector,
-    data.score,
-    JSON.stringify(data.schemes)
+    biz.name || 'Unknown',
+    biz.type,
+    biz.state,
+    biz.sector,
+    result.agent1?.score ?? null,
+    JSON.stringify(result.agent2?.schemes ?? [])
   );
 }
 
