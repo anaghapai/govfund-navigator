@@ -780,13 +780,14 @@ document.getElementById('story-text').addEventListener('input', function() {
 async function runAnalysis() {
   const t = T[currentLang];
   currentBiz = {
-    name: document.getElementById('biz-name').value.trim(),
-    type: document.getElementById('biz-type').value,
-    state: document.getElementById('biz-state').value,
+    name:    document.getElementById('biz-name').value.trim(),
+    type:    document.getElementById('biz-type').value,
+    state:   document.getElementById('biz-state').value,
     revenue: document.getElementById('biz-revenue').value,
-    age: document.getElementById('biz-age').value,
-    sector: document.getElementById('biz-sector').value,
-    desc: document.getElementById('biz-desc').value.trim()
+    age:     document.getElementById('biz-age').value,
+    sector:  document.getElementById('biz-sector').value,
+    desc:    document.getElementById('biz-desc').value.trim(),
+    email: document.getElementById('biz-email').value.trim()
   };
 
   if (!currentBiz.type || !currentBiz.state || !currentBiz.sector || !currentBiz.revenue || !currentBiz.age) {
@@ -852,11 +853,9 @@ async function runAnalysis() {
     hide('step-loading');
   }
 }
+   // render results
 
-// ════════════════════════════════════════════
-// RENDER RESULTS
-// ════════════════════════════════════════════
-function renderResults(a1, a2) {
+ function renderResults(a1, a2) {
   const t = T[currentLang];
   const offset = 314 - (a1.score / 100) * 314;
   document.getElementById('score-num').textContent = a1.score;
@@ -919,12 +918,16 @@ function renderResults(a1, a2) {
     list.appendChild(card);
   });
 
+  // ADD THESE TWO LINES
+  window.currentBiz = window._currentBiz;
+  window.currentSchemes = a2.schemes;
+
   if (currentLang !== 'en') translateSummary(currentLang);
-}
+ }
 
-function toggleScheme(hdr) { hdr.parentElement.classList.toggle('open'); }
+ function toggleScheme(hdr) { hdr.parentElement.classList.toggle('open'); }
 
-function copyDocs(btn, i) {
+ function copyDocs(btn, i) {
   const t = T[currentLang];
   const sc = window._schemes[i];
   const text = `Documents for ${sc.name}:\n` + (sc.documents||[]).map((d,j)=>`${j+1}. ${d}`).join('\n');
@@ -932,8 +935,7 @@ function copyDocs(btn, i) {
     btn.textContent = t.copiedChecklist;
     setTimeout(() => btn.textContent = t.copyChecklist, 2000);
   });
-}
-
+ }
 // ════════════════════════════════════════════
 // EMAIL MODAL
 // ════════════════════════════════════════════

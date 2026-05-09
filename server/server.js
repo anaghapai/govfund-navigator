@@ -3,6 +3,7 @@ const express = require('express');
 const cors = require('cors');
 const path = require('path');
 const fs = require('fs');
+const nodemailer = require('nodemailer');
 const { saveSearch, getHistory, getSearchById } = require('./database');
 
 const app = express();
@@ -18,17 +19,13 @@ const SCHEMES_DB = JSON.parse(
 );
 
 // ============================================================
-// POLICY MAPPING ENGINE — filters before AI sees anything
+// POLICY MAPPING ENGINE
 // ============================================================
 function mapSchemes(biz) {
   return SCHEMES_DB.filter(sc => {
-    // Sector match
     const sectorOk = sc.sector.includes(biz.sector) || sc.sector.includes('Other');
-
-    // Target group match
     const targetOk = sc.target_group.includes(biz.type) || sc.target_group.includes('MSME');
 
-    // Revenue filter
     let revenueOk = true;
     if (sc.eligibility.revenue_cap) {
       if (sc.eligibility.revenue_cap === 'Under ₹5 Lakh' && biz.revenue !== 'Under ₹5 Lakh') revenueOk = false;
@@ -36,13 +33,11 @@ function mapSchemes(biz) {
       if (sc.eligibility.revenue_cap === 'New greenfield enterprise only' && biz.age !== 'Less than 1 year') revenueOk = false;
     }
 
-    // Age/years filter
     let ageOk = true;
     if (sc.eligibility.years_in_operation && sc.eligibility.years_in_operation.length > 0) {
       ageOk = sc.eligibility.years_in_operation.includes(biz.age);
     }
 
-    // Gender filter
     let genderOk = true;
     if (sc.eligibility.gender === 'Women only' && biz.type !== 'Women-led Business') {
       genderOk = false;
@@ -106,7 +101,7 @@ Respond ONLY in valid JSON, no markdown, no backticks, no extra text:
 }
 
 // ============================================================
-// AGENT 2 — Scheme Matcher (uses pre-filtered schemes only)
+// AGENT 2 — Scheme Matcher
 // ============================================================
 async function agent2(biz, filteredSchemes) {
   const schemesContext = JSON.stringify(filteredSchemes, null, 2);
@@ -142,18 +137,30 @@ Respond ONLY in valid JSON, no markdown, no backticks:
 // ============================================================
 // AGENT 3 — Email Draft
 // ============================================================
-async function agent3(biz, scheme) {
+async function agent3(biz, scheme, requestedAmount) {
   const prompt = `Write a formal Indian government funding application email.
 
 Business Name: ${biz.name || 'Our Business'}
 Business Type: ${biz.type}
 State: ${biz.state}
 Sector: ${biz.sector}
+Annual Revenue: ${biz.revenue}
+Years in Operation: ${biz.age}
 Scheme: ${scheme.name}
 Ministry: ${scheme.ministry}
-Benefit: ${scheme.benefit}
+Maximum Benefit Available: ${scheme.benefit}
+Amount Requested by Business: ${requestedAmount || scheme.benefit}
+Business Description: ${biz.desc || 'Not provided'}
 
-Include: subject line, formal greeting, business intro, why they qualify, request for consideration, professional closing.
+Include ALL of these sections:
+1. Subject line
+2. Formal greeting to the ministry
+3. Introduction of the business
+4. Why they qualify for this specific scheme
+5. Specific funding amount being requested: ${requestedAmount || scheme.benefit}
+6. How the funds will be used
+7. Request for application consideration
+8. Professional closing with business name
 
 Respond ONLY in valid JSON, no markdown, no backticks:
 {"subject":"<email subject>","body":"<full email with \\n for line breaks>"}`;
@@ -162,12 +169,69 @@ Respond ONLY in valid JSON, no markdown, no backticks:
     const raw = await callOpenRouter(prompt);
     return JSON.parse(raw);
   } catch (e) {
-    // Fallback if JSON parse fails
     return {
-      subject: `Application for ${scheme.name}`,
-      body: `Dear Sir/Madam,\n\nWe wish to apply for the ${scheme.name} offered by ${scheme.ministry}.\n\nOur business (${biz.type}) based in ${biz.state} operates in the ${biz.sector} sector and meets the eligibility criteria for this scheme.\n\nWe kindly request you to consider our application.\n\nThank you,\n${biz.name || 'Applicant'}`
+      subject: `Application for ${scheme.name} — ${requestedAmount || scheme.benefit}`,
+      body: `Dear Sir/Madam,\n\nWe, ${biz.name || 'our business'}, a ${biz.type} based in ${biz.state} wish to apply for ${scheme.name}.\n\nRequested amount: ${requestedAmount || scheme.benefit}\n\nThank you,\n${biz.name || 'Applicant'}`
     };
   }
+}
+
+// ============================================================
+// EMAIL NOTIFICATION — AUTO SEND
+// ============================================================
+const transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASS
+  }
+});
+
+async function sendEmailNotification(email, biz, schemes) {
+  const schemeList = schemes.map((s, i) => `
+    <div style="background:#f9f9f9; border-left:4px solid #c17f3e; padding:15px; margin-bottom:15px; border-radius:4px;">
+      <h3 style="margin:0 0 8px 0; color:#1a1a1a">${i + 1}. ${s.name}</h3>
+      <p style="margin:4px 0; color:#555">🏢 <strong>Ministry:</strong> ${s.ministry}</p>
+      <p style="margin:4px 0; color:#555">💰 <strong>Funding:</strong> ${s.benefit}</p>
+      <p style="margin:4px 0; color:#555">📅 <strong>Deadline:</strong> ${s.deadline || 'Ongoing'}</p>
+      ${s.applyUrl ? `<a href="${s.applyUrl}" style="display:inline-block; margin-top:8px; padding:6px 14px; background:#c17f3e; color:white; border-radius:4px; text-decoration:none; font-size:0.85rem;">Apply Now →</a>` : ''}
+    </div>
+  `).join('');
+
+  const html = `
+    <div style="font-family: Arial, sans-serif; max-width:600px; margin:0 auto;">
+      <div style="background:#1a1a2e; padding:30px; text-align:center; border-radius:8px 8px 0 0;">
+        <h1 style="color:#c17f3e; margin:0;">🏛️ GovFund Navigator</h1>
+        <p style="color:#aaa; margin:8px 0 0 0;">Your Eligibility Results Are Ready</p>
+      </div>
+      <div style="background:#ffffff; padding:30px; border-radius:0 0 8px 8px; border:1px solid #eee;">
+        <p style="font-size:1.1rem;">Hello <strong>${biz.name || 'there'}</strong>! 👋</p>
+        <p>Great news! We found <strong>${schemes.length} government funding schemes</strong> that match your business profile.</p>
+        <hr style="border:none; border-top:1px solid #eee; margin:20px 0;"/>
+        <h2 style="color:#1a1a2e; margin-bottom:15px;">Your Matched Schemes</h2>
+        ${schemeList}
+        <hr style="border:none; border-top:1px solid #eee; margin:20px 0;"/>
+        <h3 style="color:#1a1a2e;">📋 Documents to Keep Ready</h3>
+        <ul style="color:#555; line-height:1.8;">
+          <li>Aadhaar Card + PAN Card</li>
+          <li>Business Registration Certificate</li>
+          <li>Bank Statements (last 6 months)</li>
+          <li>GST Certificate (if applicable)</li>
+          <li>Cancelled Cheque</li>
+        </ul>
+        <p style="color:#888; font-size:0.85rem; margin-top:30px;">
+          This email was sent by GovFund Navigator — AI-powered government funding discovery for Indian businesses.
+        </p>
+      </div>
+    </div>
+  `;
+
+  await transporter.sendMail({
+    from: `"GovFund Navigator" <${process.env.EMAIL_USER}>`,
+    to: email,
+    subject: `🏛️ Your GovFund Results — ${schemes.length} Schemes Found for ${biz.name || 'Your Business'}`,
+    html: html
+  });
 }
 
 // ============================================================
@@ -175,7 +239,7 @@ Respond ONLY in valid JSON, no markdown, no backticks:
 // ============================================================
 
 app.post('/api/analyze', async (req, res) => {
-  const { name, type, state, revenue, age, sector, desc } = req.body;
+  const { name, type, state, revenue, age, sector, desc, email } = req.body;
 
   if (!type || !state || !sector || !revenue || !age) {
     return res.status(400).json({ error: 'Missing required fields.' });
@@ -184,11 +248,9 @@ app.post('/api/analyze', async (req, res) => {
   const biz = { name, type, state, revenue, age, sector, desc };
 
   try {
-    // Step 1: Filter schemes with policy engine (no AI needed)
     const filtered = mapSchemes(biz);
     console.log(`Policy engine matched ${filtered.length} schemes for ${type}/${sector}/${state}`);
 
-    // Step 2: Run eligibility scorer and scheme matcher in parallel
     const [a1, a2] = await Promise.all([
       agent1(biz),
       agent2(biz, filtered)
@@ -196,11 +258,16 @@ app.post('/api/analyze', async (req, res) => {
 
     const result = { agent1: a1, agent2: a2 };
 
-    // Step 3: Save to history
-    try {
-      saveSearch(biz, result);
-    } catch (dbErr) {
-      console.warn('DB save skipped:', dbErr.message);
+    try { saveSearch(biz, result); } catch (dbErr) { console.warn('DB save skipped:', dbErr.message); }
+
+    // AUTO SEND EMAIL
+    if (email && email.trim().includes('@')) {
+      try {
+        await sendEmailNotification(email.trim(), biz, a2.schemes);
+        console.log('✅ Email sent to', email);
+      } catch (emailErr) {
+        console.warn('❌ Email send failed:', emailErr.message);
+      }
     }
 
     res.json(result);
@@ -211,11 +278,10 @@ app.post('/api/analyze', async (req, res) => {
 });
 
 app.post('/api/email-draft', async (req, res) => {
-  const { biz, scheme } = req.body;
+  const { biz, scheme, requestedAmount } = req.body;
   if (!biz || !scheme) return res.status(400).json({ error: 'Missing biz or scheme.' });
-
   try {
-    const email = await agent3(biz, scheme);
+    const email = await agent3(biz, scheme, requestedAmount);
     res.json(email);
   } catch (err) {
     console.error('Email draft error:', err);
@@ -224,11 +290,8 @@ app.post('/api/email-draft', async (req, res) => {
 });
 
 app.get('/api/history', async (req, res) => {
-  try {
-    res.json(getHistory());
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
+  try { res.json(getHistory()); }
+  catch (err) { res.status(500).json({ error: err.message }); }
 });
 
 app.get('/api/history/:id', async (req, res) => {
@@ -236,9 +299,7 @@ app.get('/api/history/:id', async (req, res) => {
     const item = getSearchById(req.params.id);
     if (!item) return res.status(404).json({ error: 'Not found' });
     res.json(item);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
+  } catch (err) { res.status(500).json({ error: err.message }); }
 });
 
 // ============================================================

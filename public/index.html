@@ -41,10 +41,12 @@
       <span class="ticker-item">📄 Agent 3 — Document Checklist</span>
       <span class="ticker-sep">→</span>
       <span class="ticker-item">📧 Agent 4 — Email Draft</span>
+      <span class="ticker-sep">→</span>
+      <span class="ticker-item">📨 Agent 5 — Email Notification</span>
     </div>
   </div>
 
-  <!-- ═══════════════ HOME PAGE ═══════════════ -->
+  <!-- HOME PAGE -->
   <div id="page-home">
 
     <!-- HERO -->
@@ -102,7 +104,7 @@
 
     <!-- ANALYZE SECTION -->
     <section id="analyze-section" class="analyze-section">
-      <div class="section-label">4-AGENT AI ANALYSIS</div>
+      <div class="section-label">5-AGENT AI ANALYSIS</div>
       <h2 class="section-title">Tell us about your business</h2>
       <p class="section-sub">Our AI reads real government scheme data and matches you in seconds.</p>
 
@@ -182,27 +184,39 @@
               <option>Other</option>
             </select>
           </div>
+
+          <!-- EMAIL FIELD — replaces old phone field -->
+          <div class="field">
+            <label>Email Address</label>
+            <input type="email" id="biz-email" placeholder="e.g. yourname@gmail.com" maxlength="100"/>
+            <small style="color:rgba(255,255,255,0.4); font-size:0.75rem; margin-top:4px; display:block">
+              Results will be automatically sent to this email
+            </small>
+          </div>
+
         </div>
+
         <div class="field field-full">
           <label id="lbl-desc">Describe your business</label>
           <textarea id="biz-desc" rows="3" placeholder="What do you make or sell? Who are your customers? E.g. 'We make organic pickles and sell to local stores in Mysore.'" maxlength="500"></textarea>
           <div class="char-count"><span id="char-count">0</span>/500</div>
         </div>
+
         <button class="analyze-btn" id="btn-analyze" onclick="runAnalysis()">
           <span id="btn-text">Analyze My Eligibility</span>
         </button>
       </div>
 
-      <!-- LOADING — replace the entire step-loading div -->
-     <div class="form-card loading-card hidden" id="step-loading">
-      <div class="loading-icon">🔍</div>
-      <h3 class="loading-title">Checking your eligibility</h3>
-      <p class="loading-msg" id="loading-msg">Reading your business profile...</p>
-      <div class="loading-bar">
-       <div class="loading-fill" id="loading-fill"></div>
+      <!-- LOADING -->
+      <div class="form-card loading-card hidden" id="step-loading">
+        <div class="loading-icon">🔍</div>
+        <h3 class="loading-title">Checking your eligibility</h3>
+        <p class="loading-msg" id="loading-msg">Reading your business profile...</p>
+        <div class="loading-bar">
+          <div class="loading-fill" id="loading-fill"></div>
+        </div>
+        <p class="loading-source-note">Matching against <strong>12 verified government schemes</strong> from MSME, NABARD, Ministry of Finance and Ministry of Textiles databases.</p>
       </div>
-      <p class="loading-source-note">Matching against <strong>12 verified government schemes</strong> from MSME, NABARD, Ministry of Finance and Ministry of Textiles databases.</p>
-     </div>
 
       <!-- RESULTS -->
       <div class="hidden" id="step-results">
@@ -234,7 +248,7 @@
         <!-- SCHEMES -->
         <div class="schemes-section">
           <div class="schemes-hdr">
-            <h3> Your Matching Schemes</h3>
+            <h3>Your Matching Schemes</h3>
             <span class="schemes-pill" id="schemes-count"></span>
           </div>
           <div id="schemes-list"></div>
@@ -244,13 +258,11 @@
       </div>
     </section>
 
-    <!-- STORIES PREVIEW ON HOME -->
+    <!-- STORIES PREVIEW -->
     <section class="stories-preview-section">
       <div class="section-label">REAL STORIES</div>
       <h2 class="section-title">People like you are getting funded</h2>
-      <div class="stories-strip" id="home-stories-strip">
-        <!-- Populated by JS -->
-      </div>
+      <div class="stories-strip" id="home-stories-strip"></div>
       <div class="stories-btns">
         <button class="btn-tell-story" onclick="showPage('stories'); setTimeout(()=>document.getElementById('upload-form').scrollIntoView({behavior:'smooth'}),200)">Tell My Story</button>
         <button class="btn-see-stories" onclick="showPage('stories')">See All Stories</button>
@@ -259,7 +271,7 @@
 
   </div>
 
-  <!-- ═══════════════ STORIES PAGE ═══════════════ -->
+  <!-- STORIES PAGE -->
   <div id="page-stories" class="hidden">
     <section class="stories-hero">
       <div class="sh-text">
@@ -268,15 +280,10 @@
         <p>Real businesses from rural India sharing how they found and claimed government funding. <strong>7 new stories added every week.</strong></p>
       </div>
     </section>
-
     <section class="stories-main">
       <div class="stories-week-badge">This Week's Stories</div>
-      <div class="stories-grid" id="stories-grid">
-        <!-- populated by JS -->
-      </div>
+      <div class="stories-grid" id="stories-grid"></div>
     </section>
-
-    <!-- UPLOAD STORY FORM -->
     <section class="upload-section" id="upload-form">
       <div class="upload-inner">
         <div class="upload-left">
@@ -284,7 +291,7 @@
           <h2>Upload<br/><em>Your Story</em></h2>
           <p>Inspire other business owners. Tell them what scheme you found, how much you got, and what changed for your family.</p>
           <div class="upload-week-info">
-            <strong> Weekly Upload Window</strong>
+            <strong>Weekly Upload Window</strong>
             <span id="slots-remaining">Loading slots...</span>
           </div>
         </div>
@@ -343,7 +350,7 @@
     </section>
   </div>
 
-  <!-- ═══════════════ HISTORY PAGE ═══════════════ -->
+  <!-- HISTORY PAGE -->
   <div id="page-history" class="hidden">
     <section class="generic-hero">
       <div class="section-label">YOUR SEARCHES</div>
@@ -367,6 +374,21 @@
         <p>Agent 4 drafting your email...</p>
       </div>
       <div id="email-ready-state" class="hidden">
+        <div class="email-field" id="amount-field">
+          <label>Funding Amount to Request (₹)</label>
+          <input
+            type="text"
+            id="modal-amount"
+            placeholder="e.g. 5,00,000"
+            style="width:100%; padding:10px; border-radius:8px; border:1px solid rgba(255,255,255,0.2); background:rgba(255,255,255,0.08); color:white; font-size:0.95rem; margin-top:6px;"
+          />
+          <button
+            onclick="regenerateEmailWithAmount()"
+            style="margin-top:8px; padding:8px 16px; background:#c17f3e; border:none; border-radius:6px; color:white; font-weight:600; cursor:pointer; font-size:0.85rem;"
+          >
+            Update Email with this Amount
+          </button>
+        </div>
         <div class="email-field">
           <label>Subject</label>
           <div class="email-subject-text" id="email-subject"></div>
@@ -385,5 +407,36 @@
   </div>
 
   <script src="app.js"></script>
+
+  <script>
+    async function regenerateEmailWithAmount() {
+      const amount = document.getElementById('modal-amount').value;
+      if (!amount) {
+        alert('Please enter a funding amount');
+        return;
+      }
+      document.getElementById('email-ready-state').classList.add('hidden');
+      document.getElementById('email-loading-state').classList.remove('hidden');
+      try {
+        const res = await fetch('/api/email-draft', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            biz: currentBiz,
+            scheme: currentEmailScheme,
+            requestedAmount: amount
+          })
+        });
+        const email = await res.json();
+        document.getElementById('email-subject').textContent = email.subject;
+        document.getElementById('email-body').textContent = email.body;
+        document.getElementById('email-loading-state').classList.add('hidden');
+        document.getElementById('email-ready-state').classList.remove('hidden');
+      } catch (err) {
+        alert('Error: ' + err.message);
+      }
+    }
+  </script>
+
 </body>
 </html>

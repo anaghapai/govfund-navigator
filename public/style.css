@@ -747,3 +747,40 @@ textarea { resize: vertical; }
 .loading-source-note strong {
   color: var(--warm-dark);
 }
+.whatsapp-banner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(37,211,102,0.1);
+  border: 1px solid rgba(37,211,102,0.3);
+  border-radius: 16px;
+  padding: 20px 25px;
+  margin-bottom: 30px;
+  gap: 20px;
+}
+.whatsapp-banner-left {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+.whatsapp-banner-left p {
+  color: rgba(255,255,255,0.6);
+  font-size: 0.85rem;
+  margin-top: 4px;
+}
+.whatsapp-icon { font-size: 2rem; }
+.whatsapp-banner-btn {
+  background: #25D366;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 12px 24px;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+  font-size: 0.95rem;
+}
+#modal-amount {
+  color: #2a1f14 !important;
+  background: #ffffff !important;
+}
